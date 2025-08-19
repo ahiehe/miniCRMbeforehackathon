@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Annotated
 
-from sqlalchemy import func
+from sqlalchemy import func, DateTime
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncAttrs, AsyncSession
 from sqlalchemy.orm import mapped_column, DeclarativeBase, declared_attr, Mapped
 
@@ -18,14 +18,6 @@ async def get_db() -> AsyncSession:
         yield session
 
 
-int_pk = Annotated[int, mapped_column(primary_key=True)]
-created_at = Annotated[datetime, mapped_column(server_default=func.now())]
-updated_at = Annotated[datetime, mapped_column(server_default=func.now(), onupdate=datetime.now)]
-str_uniq = Annotated[str, mapped_column(unique=True, nullable=False)]
-str_null_true = Annotated[str, mapped_column(nullable=True)]
-
-
-
 class Base(AsyncAttrs, DeclarativeBase):
     __abstract__ = True
 
@@ -33,7 +25,8 @@ class Base(AsyncAttrs, DeclarativeBase):
     def __tablename__(cls) -> str:
         return f"{cls.__name__.lower()}s"
 
-    created_at: Mapped[created_at]
+    id: Mapped[int] = mapped_column(primary_key=True)
+    created_at: Mapped[DateTime] = mapped_column(server_default=func.now())
 
 
 
