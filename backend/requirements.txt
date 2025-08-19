@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+dotenv
+sqlalchemy
+python-jose
+bcrypt==4.0.1
+passlib[bcrypt]
+pydantic[email]
+pytest_asyncio
+pydantic_settings
+strawberry-graphql[fastapi]
