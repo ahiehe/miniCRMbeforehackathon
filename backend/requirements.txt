@@ -9,3 +9,5 @@ pydantic[email]
 pytest_asyncio
 pydantic_settings
 strawberry-graphql[fastapi]
+alembic
+asyncpg

@@ -1,7 +1,8 @@
+from contextlib import asynccontextmanager
 from datetime import datetime
-from typing import Annotated
+from typing import AsyncGenerator
 
-from sqlalchemy import func, DateTime
+from sqlalchemy import func
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncAttrs, AsyncSession
 from sqlalchemy.orm import mapped_column, DeclarativeBase, declared_attr, Mapped
 
@@ -13,9 +14,11 @@ engine = create_async_engine(DATABASE_URL)
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
-async def get_db() -> AsyncSession:
+@asynccontextmanager
+async def get_session() -> AsyncGenerator[AsyncSession]:
     async with async_session_maker() as session:
-        yield session
+        async with session.begin():
+            yield session
 
 
 class Base(AsyncAttrs, DeclarativeBase):
@@ -26,7 +29,7 @@ class Base(AsyncAttrs, DeclarativeBase):
         return f"{cls.__name__.lower()}s"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    created_at: Mapped[DateTime] = mapped_column(server_default=func.now())
+    created_at: Mapped[datetime] = mapped_column(server_default=func.now())
 
 
 

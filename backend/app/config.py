@@ -6,10 +6,8 @@ class Settings(BaseSettings):
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_DB: str
-    TEST_POSTGRES_DB: str
     POSTGRES_HOST: str
     POSTGRES_PORT: int
-    TEST_POSTGRES_PORT: int
     SECRET_KEY: str
     ALGORITHM: str
     model_config = SettingsConfigDict(env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env"))
