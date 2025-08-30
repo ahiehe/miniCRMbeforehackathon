@@ -6,7 +6,7 @@ from sqlalchemy import func
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncAttrs, AsyncSession
 from sqlalchemy.orm import mapped_column, DeclarativeBase, declared_attr, Mapped
 
-from .config import get_db_url
+from app.config import get_db_url
 
 DATABASE_URL = get_db_url()
 
@@ -15,7 +15,7 @@ async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
 @asynccontextmanager
-async def get_session() -> AsyncGenerator[AsyncSession]:
+async def get_session() -> AsyncGenerator[AsyncSession, None]:
     async with async_session_maker() as session:
         async with session.begin():
             yield session
