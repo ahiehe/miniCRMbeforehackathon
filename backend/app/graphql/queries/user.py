@@ -1,5 +1,6 @@
 import strawberry
 
+from app.graphql.types.token import TokenResponse
 from app.services.user import UserService
 
 @strawberry.type
@@ -10,5 +11,5 @@ class UserQuery:
             self,
             email: str,
             password: str,
-    ) -> str:
-        return await UserService.authenticate_user(email, password)
+    ) -> TokenResponse:
+        return TokenResponse(token=await UserService.authenticate_user(email, password))

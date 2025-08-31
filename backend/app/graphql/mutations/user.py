@@ -1,6 +1,7 @@
 import strawberry
 
 from app.graphql.inputs.user import UserRegisterInput, UserRegister
+from app.graphql.types.token import TokenResponse
 from app.services.user import UserService
 
 @strawberry.type
@@ -10,6 +11,6 @@ class UserMutation:
     async def register_user(
             self,
             user: UserRegisterInput
-    ) -> str:
+    ) -> TokenResponse:
         user_data: UserRegister = user.to_pydantic()
-        return await UserService.register_user(user_data)
+        return TokenResponse(token=await UserService.register_user(user_data))
