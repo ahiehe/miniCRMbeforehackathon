@@ -247,3 +247,40 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Если есть подпапки с node_modules, можно добавить
+node_modules/
+
+
+pnpm-debug.log*
+
+# Папки сборки и кэш
+.next/
+out/
+
+
+# Кэш менеджеров пакетов
+.pnpm-store/
+.cache/
+
+
+Thumbs.db
+
+# IDE/редакторы
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+
+
+# TypeScript
+*.d.ts

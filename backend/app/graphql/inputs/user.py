@@ -6,10 +6,9 @@ from strawberry.experimental.pydantic import input
 class UserRegister(BaseModel):
     email: EmailStr
     password: constr(min_length=1, max_length=60)
-    first_name: constr(min_length=1, max_length=50)
-    last_name: constr(min_length=1, max_length=50)
+    name: constr(min_length=1, max_length=50)
 
-    @field_validator('password', "first_name", "last_name")
+    @field_validator('password', "name")
     def check_ctr(cls, value: str):
         if 1 > len(value):
             return ValueError("String should be bigger than 1 symbol")

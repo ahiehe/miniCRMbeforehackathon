@@ -18,7 +18,7 @@ class UserService:
                 raise HTTPException(status_code=400, detail="User already exists")
             password_hash = await get_password_hash(user_data.password)
 
-            new_user_model = User(email=str(user_data.email), password_hash=password_hash)
+            new_user_model = User(email=str(user_data.email), password_hash=password_hash, name=user_data.name)
             new_user_created = await UserRepository.create_user(session, new_user_model)
 
             token = await create_access_token({"id": new_user_created.id})

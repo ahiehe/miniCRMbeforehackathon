@@ -1,0 +1,19 @@
+type Mutation {
+  registerUser(user: UserRegisterInput!): TokenResponse!
+}
+
+type Query {
+  """Login user query"""
+  loginUser(email: String!, password: String!): TokenResponse!
+}
+
+type TokenResponse {
+  token: String!
+}
+
+input UserRegisterInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+}
