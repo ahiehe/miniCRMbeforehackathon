@@ -12,7 +12,7 @@ class UserService:
 
     @staticmethod
     async def register_user(user_data: UserRegister) -> str:
-        with get_session() as session:
+        async with get_session() as session:
             user = await UserRepository.get_user_by_email(session, str(user_data.email))
             if user:
                 raise HTTPException(status_code=400, detail="User already exists")
@@ -26,7 +26,7 @@ class UserService:
 
     @staticmethod
     async def authenticate_user(email, password) -> str:
-        with get_session() as session:
+        async with get_session() as session:
             user = await UserRepository.get_user_by_email(session, str(email))
 
             if not user:

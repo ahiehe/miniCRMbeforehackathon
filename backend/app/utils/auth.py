@@ -31,7 +31,15 @@ async def get_token_from_cookie(request: Request) -> str:
 
     return token
 
-async def get_current_user(token: str = Depends(get_token_from_cookie)) -> dict:
+async def get_token_from_header(request: Request) -> str:
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(status_code=401, detail="Invalid or missing Authorization header")
+
+    token = auth_header.split(" ")[1]
+    return token
+
+async def get_current_user(token: str = Depends(get_token_from_header)) -> dict:
     try:
         payload = await decode_access_token(token)
         """if datetime.fromtimestamp(payload["exp"]) < datetime.now():

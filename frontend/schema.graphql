@@ -13,7 +13,6 @@ type TokenResponse {
 
 input UserRegisterInput {
   email: String!
-  firstName: String!
-  lastName: String!
+  name: String!
   password: String!
 }

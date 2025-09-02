@@ -47,8 +47,7 @@ export type TokenResponse = {
 
 export type UserRegisterInput = {
   email: Scalars['String']['input'];
-  firstName: Scalars['String']['input'];
-  lastName: Scalars['String']['input'];
+  name: Scalars['String']['input'];
   password: Scalars['String']['input'];
 };
 

@@ -24,6 +24,6 @@ export const FormInput: FC<FormInputProps> = (
 ) => {
     return <div className="flex row space-y-1">
         { labelText && <Label htmlFor={nameHTML}>{labelText}</Label>}
-        <Input onChange={onChange} type={type} className={cn("bg-background",className)} value={value} />
+        <Input onChange={onChange} type={type} name={nameHTML} className={cn("bg-background",className)} value={value} />
     </div>
 }
