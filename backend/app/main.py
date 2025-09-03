@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from strawberry.fastapi import GraphQLRouter
+
+from app.graphql.context.getter import context_getter
 from app.graphql.schema import schema
 
 
@@ -15,5 +17,5 @@ app.add_middleware(
 )
 
 
-graphql_app = GraphQLRouter(schema=schema)
+graphql_app = GraphQLRouter(schema=schema, context_getter=context_getter)
 app.include_router(graphql_app, prefix="/graphql")

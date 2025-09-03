@@ -2,6 +2,7 @@ from fastapi import HTTPException
 
 from app.database import get_session
 from app.graphql.inputs.user import  UserRegister
+from app.graphql.types.user import UserType
 from app.models import User
 from app.repositories.user import UserRepository
 
@@ -37,4 +38,14 @@ class UserService:
 
             token = await create_access_token({"id": user.id})
             return token
+
+    @staticmethod
+    async def get_user(user_id: int) -> UserType:
+        async with get_session() as session:
+            user = await UserRepository.get_user_by_id(session, user_id)
+
+            if not user:
+                raise HTTPException(status_code=400, detail="Wrong user")
+
+            return UserType.from_orm(user)
 

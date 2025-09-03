@@ -3,6 +3,9 @@ type Mutation {
 }
 
 type Query {
+  """Get me"""
+  getMe: UserType!
+
   """Login user query"""
   loginUser(email: String!, password: String!): TokenResponse!
 }
@@ -15,4 +18,11 @@ input UserRegisterInput {
   email: String!
   name: String!
   password: String!
+}
+
+"""User type"""
+type UserType {
+  email: String!
+  id: Int!
+  name: String!
 }

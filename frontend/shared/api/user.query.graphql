@@ -3,3 +3,11 @@ query loginUser($email: String!, $password: String!) {
         token
     }
 }
+
+query getMe {
+    getMe {
+        id
+        name
+        email
+    }
+}
