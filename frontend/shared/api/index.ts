@@ -38,13 +38,17 @@ export type Query = {
 
 
 export type QueryLoginUserArgs = {
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+  userCredentials: UserLoginInput;
 };
 
 export type TokenResponse = {
   __typename?: 'TokenResponse';
   token: Scalars['String']['output'];
+};
+
+export type UserLoginInput = {
+  email: Scalars['String']['input'];
+  password: Scalars['String']['input'];
 };
 
 export type UserRegisterInput = {
@@ -69,8 +73,7 @@ export type RegisterUserMutationVariables = Exact<{
 export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'TokenResponse', token: string } };
 
 export type LoginUserQueryVariables = Exact<{
-  email: Scalars['String']['input'];
-  password: Scalars['String']['input'];
+  userCredentials: UserLoginInput;
 }>;
 
 
@@ -116,8 +119,8 @@ export type RegisterUserMutationHookResult = ReturnType<typeof useRegisterUserMu
 export type RegisterUserMutationResult = Apollo.MutationResult<RegisterUserMutation>;
 export type RegisterUserMutationOptions = Apollo.BaseMutationOptions<RegisterUserMutation, RegisterUserMutationVariables>;
 export const LoginUserDocument = gql`
-    query loginUser($email: String!, $password: String!) {
-  loginUser(email: $email, password: $password) {
+    query loginUser($userCredentials: UserLoginInput!) {
+  loginUser(userCredentials: $userCredentials) {
     token
   }
 }
@@ -135,8 +138,7 @@ export const LoginUserDocument = gql`
  * @example
  * const { data, loading, error } = useLoginUserQuery({
  *   variables: {
- *      email: // value for 'email'
- *      password: // value for 'password'
+ *      userCredentials: // value for 'userCredentials'
  *   },
  * });
  */

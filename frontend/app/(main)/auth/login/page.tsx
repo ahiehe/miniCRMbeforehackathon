@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {LoginForm} from "@/features/auth/ui/LoginForm";
+import {LoginForm} from "@/features/auth/container/LoginForm";
 
 
 const LoginPage: FC = () => {

@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {UserInfoContainer} from "@/features/profile/ui/UserInfoContainer";
+import {UserInfoContainer} from "@/features/profile/container/UserInfoContainer";
 
 
 

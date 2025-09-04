@@ -1,5 +1,5 @@
 import {FC} from "react";
-import {RegisterForm} from "@/features/auth/ui/RegisterForm";
+import {RegisterForm} from "@/features/auth/container/RegisterForm";
 
 
 const RegisterPage: FC = () => {

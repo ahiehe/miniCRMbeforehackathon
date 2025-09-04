@@ -7,11 +7,16 @@ type Query {
   getMe: UserType!
 
   """Login user query"""
-  loginUser(email: String!, password: String!): TokenResponse!
+  loginUser(userCredentials: UserLoginInput!): TokenResponse!
 }
 
 type TokenResponse {
   token: String!
+}
+
+input UserLoginInput {
+  email: String!
+  password: String!
 }
 
 input UserRegisterInput {
