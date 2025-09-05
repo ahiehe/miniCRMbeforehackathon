@@ -2,15 +2,16 @@
 
 import {ChangeEvent, FC, FormEvent, useCallback, useState} from "react";
 import {Button} from "@/shared/ui/button";
-import {useRegisterUserMutation, UserRegisterInput} from "@/shared/api";
+import {TokenResponse, useRegisterUserMutation, UserRegisterInput} from "@/shared/api";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {cn} from "@/lib/utils";
 import {Input} from "@/shared/ui/input";
+import {useUserStore} from "@/shared/store/user-store";
 
 export const RegisterForm: FC = () => {
 
     const [registerUser] = useRegisterUserMutation()
-
+    const {authorize} = useUserStore()
 
     const {register, handleSubmit} = useForm<UserRegisterInput>({
         defaultValues: {
@@ -23,7 +24,7 @@ export const RegisterForm: FC = () => {
     const onSubmit: SubmitHandler<UserRegisterInput> = async (values) => {
         const response = await registerUser({variables: {user: values}})
         if (response.data?.registerUser.token){
-            localStorage.setItem("token", response.data.registerUser.token)
+            authorize({token: response.data.registerUser.token} as TokenResponse)
         }
     }
 

@@ -12,20 +12,20 @@ interface Props{
 
 export const AuthProvider: FC<Props> = ({children}) => {
 
-    const {user, isAuthorized, setUser} = useUserStore();
+    const {user, isAuthorized, setUser, token} = useUserStore();
     const {data, loading, error, refetch} = useGetMeQuery({
         skip: !isAuthorized
     });
 
     useEffect(() => {
-        if (!isAuthorized || !data || loading){
+        if (!isAuthorized || !data || loading || !token){
             return;
         }
         if(data.getMe){
             const userInfo = {id: data.getMe.id, email: data.getMe.email, name: data.getMe.name} as UserType;
             setUser(userInfo)
         }
-    }, [isAuthorized])
+    }, [isAuthorized, token])
 
 
     return <AuthContext.Provider value={{refetch}}>

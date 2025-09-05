@@ -1,7 +1,8 @@
+import httpx
 from fastapi import Depends, HTTPException, Request
 from jose import jwt
 from passlib.context import CryptContext
-from app.config import get_auth_data
+from app.config import get_auth_data, settings
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -38,6 +39,33 @@ async def get_token_from_header(request: Request) -> str:
 
     token = auth_header.split(" ")[1]
     return token
+
+async def exchange_code_for_token(code: str) -> dict:
+    async with httpx.AsyncClient() as client:
+        resp = await client.post(
+            "https://oauth2.googleapis.com/token",
+            data={
+                "code": code,
+                "client_id": settings.GOOGLE_CLIENT_ID,
+                "client_secret": settings.GOOGLE_CLIENT_SECRET,
+                "redirect_uri": settings.GOOGLE_REDIRECT_URI,
+                "grant_type": "authorization_code",
+            },
+            headers={"Content-Type": "application/x-www-form-urlencoded"},
+        )
+        token_data = resp.json()
+    return token_data
+
+async def get_user_data_by_google_token(access_token: str) -> dict:
+    async with httpx.AsyncClient() as client:
+        userinfo_resp = await client.get(
+            "https://www.googleapis.com/oauth2/v2/userinfo",
+            headers={"Authorization": f"Bearer {access_token}"}
+        )
+        profile = userinfo_resp.json()
+
+    return profile
+
 
 async def get_current_user(token: str = Depends(get_token_from_header)) -> dict:
     try:

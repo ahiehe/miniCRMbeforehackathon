@@ -5,3 +5,9 @@ mutation registerUser($user: UserRegisterInput!) {
         token
     }
 }
+
+mutation loginWithGoogleUser($code: String!){
+    loginWithGoogleUser(code: $code){
+        token
+    }
+}

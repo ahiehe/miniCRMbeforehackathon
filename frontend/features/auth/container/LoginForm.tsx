@@ -3,17 +3,18 @@
 import {FC, FormEvent, useCallback, useState} from "react";
 import {Button} from "@/shared/ui/button";
 import {FormInput} from "@/shared/components/FormInput";
-import {useLoginUserLazyQuery, useLoginUserQuery, UserLoginInput} from "@/shared/api";
+import {TokenResponse, useLoginUserLazyQuery, useLoginUserQuery, UserLoginInput} from "@/shared/api";
 import {Input} from "@/shared/ui/input";
 import {cn} from "@/lib/utils";
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useUserStore} from "@/shared/store/user-store";
 
 
 
 export const LoginForm: FC = () => {
 
     const [loginUser] = useLoginUserLazyQuery()
-
+    const {authorize} = useUserStore()
     const {register, handleSubmit} = useForm<UserLoginInput>({
         defaultValues: {
             email: "",
@@ -25,7 +26,7 @@ export const LoginForm: FC = () => {
         const response = await loginUser({variables: {userCredentials: values}})
 
         if (response.data?.loginUser.token){
-            localStorage.setItem("token", response.data.loginUser.token)
+            authorize({token: response.data.loginUser.token} as TokenResponse)
         }
 
 

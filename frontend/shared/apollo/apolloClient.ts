@@ -1,19 +1,21 @@
 "use client";
 
 import {ApolloClient, ApolloLink, HttpLink, InMemoryCache} from '@apollo/client';
+import {useUserStore} from "@/shared/store/user-store";
 
 
 const apiUrl = "http://localhost:8000/graphql" //import.meta.env.VITE_API_URL;
 
 
 const authLink = new ApolloLink((operation, forward) => {
-    const token = localStorage.getItem("token");
+    const {token} = useUserStore.getState();
+
 
     if (token) {
         operation.setContext(({headers = {}}) => ({
             headers: {
                 ...headers,
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token.token}`,
             },
         }));
     }

@@ -6,7 +6,8 @@ from app.graphql.types.user import UserType
 from app.models import User
 from app.repositories.user import UserRepository
 
-from app.utils.auth import get_password_hash, create_access_token, check_password
+from app.utils.auth import get_password_hash, create_access_token, check_password, exchange_code_for_token, \
+    get_user_data_by_google_token
 
 
 class UserService:
@@ -35,6 +36,21 @@ class UserService:
 
             if not await check_password(password, user.password_hash):
                 raise HTTPException(status_code=400, detail="Invalid email or password")
+
+            token = await create_access_token({"id": user.id})
+            return token
+
+    @staticmethod
+    async def authenticate_user_with_google(code: str) -> str:
+        async with get_session() as session:
+            token_data = await exchange_code_for_token(code)
+            user_data = await get_user_data_by_google_token(token_data["access_token"])
+
+            user = await UserRepository.get_user_by_email(session, user_data["email"])
+
+            if not user:
+                new_user_model = User(email=str(user_data["email"]), name=user_data["name"])
+                user = await UserRepository.create_user(session, new_user_model)
 
             token = await create_access_token({"id": user.id})
             return token

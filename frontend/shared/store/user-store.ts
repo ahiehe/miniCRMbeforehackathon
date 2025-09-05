@@ -1,27 +1,24 @@
-import {UserType} from "@/shared/api";
+import {TokenResponse, UserType} from "@/shared/api";
 import {create} from "zustand";
 import {createJSONStorage, persist} from "zustand/middleware"
 
 
-interface TokenType{
-    accessToken: string
-}
 
 export interface UserStoreState{
     user: UserType | undefined,
     setUser: (user: UserType) => void;
-    token: TokenType | undefined,
+    token: TokenResponse | undefined,
     isAuthorized: boolean,
-    authorize: (token: TokenType) => void,
+    authorize: (token: TokenResponse) => void,
     unAuthorize: () => void,
 }
 const localStorage = typeof window !== "undefined" ? window.localStorage : undefined;
 
-let initialToken: TokenType | undefined = undefined
+let initialToken: TokenResponse | undefined = undefined
 
 const token = localStorage?.getItem("token")
 if (token){
-    initialToken = {accessToken: token} as TokenType
+    initialToken = {token: token} as TokenResponse
 }
 const isAuthorized = !!initialToken;
 
@@ -34,7 +31,7 @@ export const useUserStore = create<UserStoreState>()(
             authorize: (token) => {
                 set(() => ({
                     token: {
-                        accessToken: token.accessToken,
+                        token: token.token,
                     },
                     isAuthorized: true
                 }));

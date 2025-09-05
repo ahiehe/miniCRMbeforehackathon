@@ -1,4 +1,5 @@
 type Mutation {
+  loginWithGoogleUser(code: String!): TokenResponse!
   registerUser(user: UserRegisterInput!): TokenResponse!
 }
 

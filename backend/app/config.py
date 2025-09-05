@@ -10,6 +10,9 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     SECRET_KEY: str
     ALGORITHM: str
+    GOOGLE_CLIENT_ID: str
+    GOOGLE_CLIENT_SECRET: str
+    GOOGLE_REDIRECT_URI: str
     model_config = SettingsConfigDict(env_file=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".env"))
 
 settings = Settings()

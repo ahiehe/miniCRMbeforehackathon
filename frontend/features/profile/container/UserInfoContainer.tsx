@@ -11,10 +11,9 @@ export const UserInfoContainer: FC = () => {
     const router = useRouter();
     const {user, unAuthorize} = useUserStore();
 
-    const logout = (e) => {
-        e.preventDefault();
-
+    const logout = () => {
         unAuthorize();
+        localStorage.removeItem("user-storage");
         router.replace("/");
     }
 

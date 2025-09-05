@@ -9,7 +9,7 @@ from ..database import Base
 class User(Base):
     name: Mapped[str]
     email: Mapped[str] = mapped_column(unique=True, nullable=False)
-    password_hash: Mapped[str]
+    password_hash: Mapped[str] = mapped_column(nullable=True)
 
     projects: Mapped[List["Project"]] = relationship(
         "Project", back_populates="owner", cascade="all, delete-orphan"

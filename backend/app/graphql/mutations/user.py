@@ -14,3 +14,10 @@ class UserMutation:
     ) -> TokenResponse:
         user_data: UserRegister = user.to_pydantic()
         return TokenResponse(token=await UserService.register_user(user_data))
+
+    @strawberry.mutation()
+    async def login_with_google_user(
+            self,
+            code: str
+    ) -> TokenResponse:
+        return TokenResponse(token=await UserService.authenticate_user_with_google(code))
